@@ -17,7 +17,9 @@ import { siteMetadata, menu } from "../../data";
 import { dateString } from "../../utils";
 
 export async function getStaticPaths() {
-  const allPosts = await getCollection("posts");
+  const allPosts = await getCollection("posts", ({ data }) =>
+    import.meta.env.PROD ? data.draft !== true : true,
+  );
 
   return allPosts
     .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
@@ -66,6 +68,13 @@ const { Content } = await entry.render();
     {dateString(entry.data.date)}
   </p>
   <Paper>
+    {
+      import.meta.env.DEV && entry.data.draft && (
+        <Alert status="warning" title="Draft">
+          This post is draft and visible in dev mode only.
+        </Alert>
+      )
+    }
     <Content components={{ YouTube, PanelLink, Alert }} />
   </Paper>
   <Paper>
