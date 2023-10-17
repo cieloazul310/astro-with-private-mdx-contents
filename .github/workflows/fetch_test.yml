@@ -65,7 +65,7 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
         working-directory: ${{ env.BUILD_PATH }}
 
-      - name: Clone contents repository1
+      - name: Clone contents repository
         uses: actions/checkout@v4
         with:
           repository: cieloazul310/mdx-contents-example
@@ -77,4 +77,4 @@ jobs:
         run: |
           mv ${{ env.CLONED_PATH }}/content src/content/posts
           ${{ steps.detect-package-manager.outputs.runner }} astro sync
-
+          ls src/content/posts
