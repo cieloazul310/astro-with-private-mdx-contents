@@ -12,7 +12,7 @@ import { pageSize, menu, siteMetadata } from "../../data";
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
   // Load your data with fetch(), Astro.glob(), etc.
-  const allPosts = await getCollection("posts");
+  const allPosts = await getCollection("posts", ({ data }) => import.meta.env.PROD ? data.draft !== true : true);
   const posts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
   // Return a paginated collection of paths for all posts
