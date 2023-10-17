@@ -1,0 +1,86 @@
+---
+/* eslint-disable-next-line import/no-unresolved */
+import { getCollection, getEntry } from "astro:content";
+import type { InferGetStaticPropsType } from "astro";
+import {
+  SarkaraLayout,
+  Paper,
+  PaperLink,
+  PanelLink,
+  Alert,
+  Navigation,
+  useNavigation,
+} from "@cieloazul310/astro-sarkara";
+import { css } from "@cieloazul310/sarkara-css/css";
+import YouTube from "../../components/YouTube.astro";
+import { siteMetadata, menu } from "../../data";
+import { dateString } from "../../utils";
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection("posts");
+
+  return allPosts
+    .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+    .map((post, index, arr) => {
+      const left = index !== 0 ? arr[index - 1] : null;
+      const right = index !== arr.length - 1 ? arr[index + 1] : null;
+
+      return {
+        params: {
+          slug: post.slug,
+        },
+        props: {
+          post,
+          left,
+          right,
+        },
+      };
+    });
+}
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { post, left, right } = Astro.props;
+const navigation = useNavigation(
+  { left, right },
+  {
+    href: (obj) => `/posts/${obj.slug}`,
+    primaryText: (obj) => obj.data.title,
+    secondaryText: (obj) => dateString(obj.data.date),
+  },
+);
+const entry = await getEntry("posts", post.slug);
+const { Content } = await entry.render();
+---
+
+<SarkaraLayout
+  title={post.data.title}
+  image={entry.data.featuredImg?.src}
+  siteMetadata={siteMetadata}
+  menu={menu}
+>
+  <p
+    class={css({ textStyle: "headings", fontSize: "lg" })}
+    slot="jumbotron-header"
+  >
+    {dateString(entry.data.date)}
+  </p>
+  <Paper>
+    <Content components={{ YouTube, PanelLink, Alert }} />
+  </Paper>
+  <Paper>
+    <footer>
+      <hgroup>
+        <p>{dateString(entry.data.date)}</p>
+        <h2
+          class={css({ textStyle: "headings", fontSize: ["lg", "lg", "xl"] })}
+        >
+          {post.data.title}
+        </h2>
+      </hgroup>
+    </footer>
+  </Paper>
+  <Navigation {...navigation} />
+  <PaperLink href="/posts">Posts Top</PaperLink>
+  <Navigation {...navigation} direction="column" slot="sidebar-top" />
+</SarkaraLayout>

@@ -1,0 +1,38 @@
+---
+/* eslint-disable-next-line import/no-unresolved */
+import { getCollection } from "astro:content";
+import type { GetStaticPathsOptions, InferGetStaticPropsType } from "astro";
+import {
+  SarkaraLayout,
+  ArticleList,
+  Pagination,
+} from "@cieloazul310/astro-sarkara";
+import PostListItem from "../../components/PostListItem.astro";
+import { pageSize, menu, siteMetadata } from "../../data";
+
+export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
+  // Load your data with fetch(), Astro.glob(), etc.
+  const allPosts = await getCollection("posts");
+  const posts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+  // Return a paginated collection of paths for all posts
+  return paginate(posts, { pageSize });
+}
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+const { page } = Astro.props;
+---
+
+<SarkaraLayout title="Posts" siteMetadata={siteMetadata} menu={menu}>
+  <Fragment slot="jumbotron-footer">
+    {page.currentPage !== 1 && `(${page.currentPage}/${page.lastPage})`}
+  </Fragment>
+  <ArticleList>
+    {
+      page.data.map((post) => (
+        <PostListItem post={post} />
+      ))
+    }
+  </ArticleList>
+  <Pagination page={page} basePath="/posts" />
+</SarkaraLayout>

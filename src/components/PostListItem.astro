@@ -1,0 +1,20 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { ArticleListItem } from "@cieloazul310/astro-sarkara";
+import { dateString } from "../utils";
+
+interface Props {
+  post: CollectionEntry<"posts">;
+}
+const { post } = Astro.props;
+---
+
+<ArticleListItem
+  href={`/posts/${post.slug}`}
+  title={post.data.title}
+  image={post.data.featuredImg?.src}
+  imageAlt={post.data.featuredImgAlt}
+  imagePlaceholder="Post"
+>
+  <span slot="headerText">{dateString(post.data.date)}</span>
+</ArticleListItem>
