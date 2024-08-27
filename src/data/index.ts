@@ -1,12 +1,14 @@
-import { defineMenu } from "@cieloazul310/astro-sarkara";
+import { defineMenu } from "@/utils/defineMenu";
 
 export const siteMetadata = {
-	title: "Astro Sarkara Starter",
-	description: "Starter project for astro-sarkara."
+	title: "Astro + MDX",
+	description: "Astro example for private MDX repository"
 };
 export const menu = defineMenu([
   { title: "Top", href: "/" },
-  { title: "Posts", href: "/posts" },
+  { title: "Post", href: "/post" },
+  { title: "Category", href: "/category" },
+  { title: "Author", href: "/author" },
   {
     title: "Link",
     items: [

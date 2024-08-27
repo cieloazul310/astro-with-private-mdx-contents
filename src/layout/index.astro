@@ -1,0 +1,71 @@
+---
+/* eslint-disable-next-line import/no-unresolved */
+import { ViewTransitions } from "astro:transitions";
+import { container, flex, vstack } from "styled-system/patterns";
+import { siteMetadata } from "@/data";
+import Header from "./header.astro";
+import Footer from "./footer.astro";
+import Menu from "./menu.astro";
+import "./index.css";
+
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <slot name="top-of-head" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="favicon.svg" href="favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title} | {siteMetadata.title}</title>
+    <ViewTransitions />
+  </head>
+  <body>
+    <div class={flex({ direction: "column", gap: "md" })}>
+      <Header />
+      <main
+        class={container({
+          width: "full",
+          maxWidth: "container",
+          p: 0,
+        })}
+      >
+        <div class={flex({ gap: "md", alignItems: "start" })}>
+          <article
+            class={vstack({
+              gap: "md",
+              alignItems: "stretch",
+              bg: "bg.canvas",
+              rounded: "md",
+              flexGrow: 1,
+            })}
+          >
+            <slot />
+          </article>
+          <div
+            class={vstack({
+              gap: "md",
+              alignItems: "stretch",
+              bg: "bg.canvas",
+              width: "320px",
+              flexShrink: 0,
+              p: "md",
+              rounded: "md",
+              position: "sticky",
+              top: "calc(56px + {spacing.md})"
+            })}
+          >
+            <slot name="sidebar-top" />
+            <Menu />
+          </div>
+        </div>
+      </main>
+      <Footer />
+    </div>
+  </body>
+</html>

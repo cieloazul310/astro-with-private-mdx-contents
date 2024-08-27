@@ -1,0 +1,29 @@
+---
+/* eslint-disable-next-line import/no-unresolved */
+import { getCollection } from "astro:content";
+import { css } from "styled-system/css";
+import { flex, linkOverlay } from "styled-system/patterns";
+import { heading3 } from "@/components/mdx-classes";
+import BlockHeader from "@/components/block-header.astro";
+import Layout from "@/layout/index.astro";
+
+const allAuthor = await getCollection("author");
+---
+
+<Layout title="Author">
+  <BlockHeader title="Author" />
+  <div class={flex({ direction: "column", gap: "sm" })}>
+    {
+      allAuthor.map(({ id, data }) => (
+        <article class={css({ px: "block", py: "md", position: "relative" })}>
+          <h1 class={heading3}>
+            <a class={linkOverlay()} href={`/author/${id}`}>
+              {data.name}
+            </a>
+          </h1>
+          <p>{data.description}</p>
+        </article>
+      ))
+    }
+  </div>
+</Layout>

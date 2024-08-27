@@ -1,0 +1,32 @@
+---
+import type { CollectionEntry } from "astro:content";
+// import { cx, css } from "styled-system/css";
+import { flex, linkOverlay } from "styled-system/patterns";
+import { dateString } from "@/utils";
+
+interface Props {
+  post: CollectionEntry<"post">;
+}
+const { post } = Astro.props;
+---
+
+<div
+  class={flex({
+    direction: "column",
+    gap: "sm",
+    position: "relative",
+    px: "block",
+    py: "md",
+    rounded: "md",
+    bg: {
+      base: "bg.canvas",
+      _hover: "amber.900/4",
+    },
+  })}
+>
+  <a
+    class={linkOverlay({ fontWeight: "bold", fontSize: "xl" })}
+    href={`/post/${post.slug}`}>{post.data.title}</a
+  >
+  <span slot="headerText">{dateString(post.data.date)}</span>
+</div>

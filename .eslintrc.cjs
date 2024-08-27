@@ -1,3 +1,6 @@
+/**
+ * @type {import("eslint").Linter.Config}
+ */
 module.exports = {
   env: {
     es6: true,
@@ -14,6 +17,11 @@ module.exports = {
     project: "./tsconfig.json",
     tsconfigRootDir: __dirname,
   },
+  settings: {
+    "import/resolver": {
+      typescript: {},
+    },
+  },
   overrides: [
     {
       files: ["*.astro"],
@@ -28,7 +36,7 @@ module.exports = {
       },
     },
     {
-      files: ["panda.config.ts", "astro.config.ts"],
+      files: ["astro.config.ts", "panda.config.ts", "postcss.config.cjs"],
       rules: {
         "import/no-extraneous-dependencies": "off",
       },
@@ -38,6 +46,6 @@ module.exports = {
       rules: {
         "import/prefer-default-export": "off",
       },
-    }
+    },
   ],
 };

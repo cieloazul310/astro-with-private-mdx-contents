@@ -1,7 +1,7 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import { css } from "@cieloazul310/sarkara-css/css";
-import { aspectRatio } from "@cieloazul310/sarkara-css/patterns";
+import { css } from "styled-system/css";
+import { aspectRatio, bleed } from "styled-system/patterns";
 
 interface Props extends Omit<HTMLAttributes<"iframe">, "src"> {
   src: string;
@@ -14,9 +14,11 @@ const { src, ...props } = Astro.props;
     aspectRatio({
       ratio: 16 / 9,
       position: "relative",
-      maxWidth: "100%",
       overflow: "hidden",
-      my: 4,
+      my: "xl",
+    }),
+    bleed({
+      inline: "block",
     }),
     props.class,
   ]}
@@ -27,7 +29,7 @@ const { src, ...props } = Astro.props;
       height: "100%",
       top: 0,
       left: 0,
-      rounded: "xl",
+      rounded: "md",
     })}
     src={`https://www.youtube.com/embed/${src}`}
     {...props}

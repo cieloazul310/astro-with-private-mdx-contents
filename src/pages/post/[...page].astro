@@ -1,0 +1,33 @@
+---
+/* eslint-disable-next-line import/no-unresolved */
+import { getCollection } from "astro:content";
+import type { GetStaticPathsOptions, InferGetStaticPropsType } from "astro";
+import { flex } from "styled-system/patterns";
+import BlockHeader from "@/components/block-header.astro";
+import PostListItem from "@/components/post-list-item.astro";
+import Layout from "@/layout/index.astro";
+import { pageSize } from "@/data";
+
+export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
+  // Load your data with fetch(), Astro.glob(), etc.
+  const allPosts = await getCollection("post", ({ data }) =>
+    import.meta.env.PROD ? data.draft !== true : true,
+  );
+  const posts = allPosts.sort(
+    (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+  );
+
+  // Return a paginated collection of paths for all posts
+  return paginate(posts, { pageSize });
+}
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+const { page } = Astro.props;
+---
+
+<Layout title="Post">
+  <BlockHeader title="Post" />
+  <div class={flex({ direction: "column", gap: "sm" })}>
+    {page.data.map((post) => <PostListItem post={post} />)}
+  </div>
+</Layout>

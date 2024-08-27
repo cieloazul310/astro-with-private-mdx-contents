@@ -1,0 +1,37 @@
+---
+import { css } from "styled-system/css";
+import { flex, container, spacer } from "styled-system/patterns";
+import { siteMetadata } from "@/data";
+---
+
+<header
+  class={css({
+    width: "full",
+    position: "sticky",
+    top: 0,
+    zIndex: 10,
+    bg: "bg.canvas",
+    shadow: "sm",
+  })}
+>
+  <div
+    class={container({
+      width: "full",
+      height: "header",
+      maxWidth: "container",
+      display: "flex",
+      gap: "sm",
+      alignItems: "center",
+      p: 0,
+    })}
+  >
+    <div class={flex({ width: "full", p: "block" })}>
+      <h1 class={css({ textStyle: "headings", fontSize: "xl" })}>
+        <a href="/">
+          {siteMetadata.title}
+        </a>
+      </h1>
+      <div class={spacer()}></div>
+    </div>
+  </div>
+</header>

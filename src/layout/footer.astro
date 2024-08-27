@@ -1,0 +1,17 @@
+---
+import { css, cx } from "styled-system/css";
+import { vstack, container } from "styled-system/patterns";
+import { siteMetadata } from "@/data";
+---
+
+<footer
+  class={css({
+    gap: "md",
+    bg: "bg.canvas",
+    width: "full",
+  })}
+>
+  <div class={cx(container({ maxWidth: "container", p: 0 }), vstack({ gap: "md" }))}>
+    <p class={css({ p: "block" })}>{siteMetadata.title}</p>
+  </div>
+</footer>
