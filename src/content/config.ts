@@ -1,6 +1,7 @@
 import { z, defineCollection, reference } from "astro:content";
+import generateJsonSchema from "@/utils/generate-json-schema";
 
-const author = z.object({
+export const author = z.object({
   name: z.string(),
   description: z.string(),
   image: z.string().nullish(),
@@ -14,7 +15,7 @@ const author = z.object({
     .nullish(),
 });
 
-const category = z.object({
+export const category = z.object({
   name: z.string(),
   description: z.string(),
 });
@@ -45,7 +46,7 @@ export const collections = {
     schema: ({ image }) =>
       author.omit({ image: true }).merge(
         z.object({
-          featuredImg: image()
+          image: image()
             .nullish()
             .catch((ctx) => {
               /* eslint-disable-next-line @typescript-eslint/no-unused-expressions */
@@ -62,3 +63,7 @@ export const collections = {
   post,
 };
 
+generateJsonSchema({
+  author,
+  category,
+});

@@ -36,7 +36,7 @@ module.exports = {
       },
     },
     {
-      files: ["astro.config.ts", "panda.config.ts", "postcss.config.cjs"],
+      files: ["src/utils/generate-json-schema.ts", "astro.config.ts", "panda.config.ts", "postcss.config.cjs"],
       rules: {
         "import/no-extraneous-dependencies": "off",
       },

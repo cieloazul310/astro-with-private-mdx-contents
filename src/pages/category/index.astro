@@ -13,8 +13,16 @@ const allCategory = await getCollection("category");
 <Layout title="Category">
   <BlockHeader title="Category" />
   <div class={flex({ direction: "column", gap: "sm" })}>
-    {allCategory.map(({ id, data }) => (
-      <article class={css({ px: "block", py: "md", position: "relative" })}>
+    {
+      allCategory.map(({ id, data }) => (
+        <article
+          class={css({
+            px: "block",
+            py: "md",
+            position: "relative",
+            bg: { base: "bg.canvas", _hover: "amber.900/4" },
+          })}
+        >
           <h1 class={heading3}>
             <a class={linkOverlay()} href={`/category/${id}`}>
               {data.name}
@@ -22,6 +30,7 @@ const allCategory = await getCollection("category");
           </h1>
           <p>{data.description}</p>
         </article>
-    ))}
+      ))
+    }
   </div>
 </Layout>

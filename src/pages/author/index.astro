@@ -15,7 +15,15 @@ const allAuthor = await getCollection("author");
   <div class={flex({ direction: "column", gap: "sm" })}>
     {
       allAuthor.map(({ id, data }) => (
-        <article class={css({ px: "block", py: "md", position: "relative" })}>
+        <article
+          class={css({
+            px: "block",
+            py: "md",
+            position: "relative",
+            bg: { base: "bg.canvas", _hover: "amber.900/4" },
+          })}
+        >
+          {data.image && <img src={data.image.src} alt={data.name} />}
           <h1 class={heading3}>
             <a class={linkOverlay()} href={`/author/${id}`}>
               {data.name}

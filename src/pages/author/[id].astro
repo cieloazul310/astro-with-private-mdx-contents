@@ -2,8 +2,10 @@
 /* eslint-disable-next-line import/no-unresolved */
 import { getCollection, getEntry } from "astro:content";
 import type { InferGetStaticPropsType } from "astro";
+import { flex } from "styled-system/patterns";
 import Layout from "@/layout/index.astro";
 import BlockHeader from "@/components/block-header.astro";
+import PostListItem from "@/components/post-list-item.astro";
 
 export async function getStaticPaths() {
   const allPosts = await getCollection("author");
@@ -30,6 +32,7 @@ type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const { id } = Astro.props;
 const entry = await getEntry("author", id);
+const posts = await getCollection("post", ({ data }) => data.author === entry.data.name);
 const { name, description } = await entry.data;
 ---
 
@@ -39,4 +42,7 @@ const { name, description } = await entry.data;
   <BlockHeader title={name}>
     <p slot="bottom">{description}</p>
   </BlockHeader>
+  <div class={flex({ direction: "column", gap: "sm" })}>
+    {posts.map((post) => <PostListItem post={post} />)}
+  </div>
 </Layout>
