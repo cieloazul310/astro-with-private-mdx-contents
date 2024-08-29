@@ -5,6 +5,7 @@ import { css } from "styled-system/css";
 import { flex, linkOverlay } from "styled-system/patterns";
 import BlockHeader from "@/components/block-header.astro";
 import { heading3 } from "@/components/mdx-classes";
+import Link from "@/components/link.astro";
 import Layout from "@/layout/index.astro";
 
 const allCategory = await getCollection("category");
@@ -24,9 +25,9 @@ const allCategory = await getCollection("category");
           })}
         >
           <h1 class={heading3}>
-            <a class={linkOverlay()} href={`/category/${id}`}>
+            <Link class={linkOverlay()} href={`/category/${id}`}>
               {data.name}
-            </a>
+            </Link>
           </h1>
           <p>{data.description}</p>
         </article>
