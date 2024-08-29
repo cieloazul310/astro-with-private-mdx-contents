@@ -1,0 +1,52 @@
+---
+import { css } from "styled-system/css";
+import { vstack } from "styled-system/patterns";
+import { menu } from "@/data";
+import { isMenuItem } from "@/utils/defineMenu";
+
+const linkStyle = css({
+  p: "sm",
+  width: "full",
+  rounded: "md",
+  fontWeight: "bold",
+  _hover: {
+    bg: "amber.900/4",
+  },
+});
+---
+
+<nav class={vstack({ gap: "sm", alignItems: "start" })}>
+  {
+    menu.map((item) => {
+      if (isMenuItem(item))
+        return (
+          <a class={linkStyle} href={item.href}>
+            {item.title}
+          </a>
+        );
+      return (
+        <section
+          class={vstack({ gap: "xs", alignItems: "start", width: "full" })}
+        >
+          <p class={css({ p: "sm", width: "full", fontWeight: "bold" })}>
+            {item.title}
+          </p>
+          <div
+            class={vstack({
+              gap: "xs",
+              alignItems: "start",
+              pl: "sm",
+              width: "full",
+            })}
+          >
+            {item.items.map((child) => (
+              <a class={linkStyle} href={child.href}>
+                {child.title}
+              </a>
+            ))}
+          </div>
+        </section>
+      );
+    })
+  }
+</nav>

@@ -1,0 +1,20 @@
+---
+import { article } from "styled-system/recipes";
+import Layout from "@/layout/index.astro";
+import BlockHeader from "@/components/block-header.astro";
+
+interface Props {
+  frontmatter: {
+    title: string;
+  } | null;
+}
+
+const { frontmatter } = Astro.props;
+---
+
+<Layout title={frontmatter?.title ?? "MDX"}>
+  <BlockHeader title={frontmatter?.title ?? "Title"} />
+  <div class={article()}>
+    <slot />
+  </div>
+</Layout>

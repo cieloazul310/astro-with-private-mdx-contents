@@ -66,7 +66,7 @@ jobs:
           fi
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: latest
           cache: ${{ steps.detect-package-manager.outputs.manager }}
@@ -90,8 +90,8 @@ jobs:
       
       - name: Move to content collection
         run: |
-          rm -rf src/content/posts
-          mv ${{ env.CLONED_PATH }}/content src/content/posts
+          rm -rf src/content/author src/content/category src/content/post
+          mv ${{ env.CLONED_PATH }}/src/* src/content
           ${{ steps.detect-package-manager.outputs.runner }} astro sync
 
       - name: Build with Astro

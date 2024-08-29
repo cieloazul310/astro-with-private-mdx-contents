@@ -1,0 +1,36 @@
+---
+/* eslint-disable-next-line import/no-unresolved */
+import { getCollection } from "astro:content";
+import { css } from "styled-system/css";
+import { flex, linkOverlay } from "styled-system/patterns";
+import BlockHeader from "@/components/block-header.astro";
+import { heading3 } from "@/components/mdx-classes";
+import Layout from "@/layout/index.astro";
+
+const allCategory = await getCollection("category");
+---
+
+<Layout title="Category">
+  <BlockHeader title="Category" />
+  <div class={flex({ direction: "column", gap: "sm" })}>
+    {
+      allCategory.map(({ id, data }) => (
+        <article
+          class={css({
+            px: "block",
+            py: "md",
+            position: "relative",
+            bg: { base: "bg.canvas", _hover: "amber.900/4" },
+          })}
+        >
+          <h1 class={heading3}>
+            <a class={linkOverlay()} href={`/category/${id}`}>
+              {data.name}
+            </a>
+          </h1>
+          <p>{data.description}</p>
+        </article>
+      ))
+    }
+  </div>
+</Layout>

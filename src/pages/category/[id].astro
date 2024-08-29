@@ -1,0 +1,48 @@
+---
+/* eslint-disable-next-line import/no-unresolved */
+import { getCollection, getEntry } from "astro:content";
+import type { InferGetStaticPropsType } from "astro";
+import { flex } from "styled-system/patterns";
+import Layout from "@/layout/index.astro";
+import BlockHeader from "@/components/block-header.astro";
+import PostListItem from "@/components/post-list-item.astro";
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection("category");
+
+  return allPosts
+    .map(({ id }, index, arr) => {
+      const left = index !== 0 ? arr[index - 1] : null;
+      const right = index !== arr.length - 1 ? arr[index + 1] : null;
+
+      return {
+        params: {
+          id,
+        },
+        props: {
+          id,
+          left,
+          right,
+        },
+      };
+    });
+}
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { id } = Astro.props;
+const entry = await getEntry("category", id);
+const posts = await getCollection("post", ({ data }) => data.category?.id === id)
+const { name, description } = await entry.data;
+---
+
+<Layout
+  title={name}
+>
+  <BlockHeader title={name}>
+    <p slot="bottom">{description}</p>
+  </BlockHeader>
+  <div class={flex({ direction: "column", gap: "sm" })}>
+    {posts.map((post) => <PostListItem post={post} />)}
+  </div>
+</Layout>
