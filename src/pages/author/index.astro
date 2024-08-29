@@ -5,6 +5,7 @@ import { css } from "styled-system/css";
 import { flex, linkOverlay } from "styled-system/patterns";
 import { heading3 } from "@/components/mdx-classes";
 import BlockHeader from "@/components/block-header.astro";
+import Link from "@/components/link.astro";
 import Layout from "@/layout/index.astro";
 
 const allAuthor = await getCollection("author");
@@ -25,9 +26,9 @@ const allAuthor = await getCollection("author");
         >
           {data.image && <img src={data.image.src} alt={data.name} />}
           <h1 class={heading3}>
-            <a class={linkOverlay()} href={`/author/${id}`}>
+            <Link class={linkOverlay()} href={`/author/${id}`}>
               {data.name}
-            </a>
+            </Link>
           </h1>
           <p>{data.description}</p>
         </article>

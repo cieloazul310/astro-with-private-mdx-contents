@@ -16,7 +16,7 @@ export const menu = defineMenu([
       { title: "Panda CSS", href: "https://panda-css.com/" },
       {
         title: "GitHub Repo",
-        href: "https://github.com/cieloazul310/astro-sarkara",
+        href: "https://github.com/cieloazul310/astro-with-private-mdx-contents",
       },
     ],
   },

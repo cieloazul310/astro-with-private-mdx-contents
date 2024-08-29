@@ -1,6 +1,7 @@
 ---
 import { css } from "styled-system/css";
 import { flex, container, spacer } from "styled-system/patterns";
+import Link from "@/components/link.astro";
 import { siteMetadata } from "@/data";
 ---
 
@@ -27,9 +28,9 @@ import { siteMetadata } from "@/data";
   >
     <div class={flex({ width: "full", p: "block" })}>
       <h1 class={css({ textStyle: "headings", fontSize: "xl" })}>
-        <a href="/">
+        <Link href="/">
           {siteMetadata.title}
-        </a>
+        </Link>
       </h1>
       <div class={spacer()}></div>
     </div>

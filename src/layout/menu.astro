@@ -1,6 +1,7 @@
 ---
 import { css } from "styled-system/css";
 import { vstack } from "styled-system/patterns";
+import Link from "@/components/link.astro";
 import { menu } from "@/data";
 import { isMenuItem } from "@/utils/defineMenu";
 
@@ -20,9 +21,9 @@ const linkStyle = css({
     menu.map((item) => {
       if (isMenuItem(item))
         return (
-          <a class={linkStyle} href={item.href}>
+          <Link class={linkStyle} href={item.href}>
             {item.title}
-          </a>
+          </Link>
         );
       return (
         <section
@@ -40,9 +41,9 @@ const linkStyle = css({
             })}
           >
             {item.items.map((child) => (
-              <a class={linkStyle} href={child.href}>
+              <Link class={linkStyle} href={child.href}>
                 {child.title}
-              </a>
+              </Link>
             ))}
           </div>
         </section>
