@@ -33,7 +33,9 @@ const { id } = Astro.props;
 const entry = await getEntry("category", id);
 const posts = await getCollection(
   "post",
-  ({ data }) => data.category?.id === id,
+  ({ data }) =>
+    data.category?.id === id &&
+    (import.meta.env.PROD ? data.draft !== true : true),
 );
 const { name, description } = await entry.data;
 ---
@@ -45,10 +47,7 @@ const { name, description } = await entry.data;
   <div class={flex({ direction: "column", gap: "sm" })}>
     {
       posts
-        .sort(
-          (a, b) =>
-            new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
-        )
+        .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
         .map((post) => <PostListItem post={post} />)
     }
   </div>
