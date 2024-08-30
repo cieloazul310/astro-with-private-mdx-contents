@@ -1,5 +1,5 @@
 ---
-import { css, cx } from "styled-system/css";
+import { css } from "styled-system/css";
 import { vstack, container } from "styled-system/patterns";
 import { siteMetadata } from "@/data";
 ---
@@ -9,9 +9,16 @@ import { siteMetadata } from "@/data";
     gap: "md",
     bg: "bg.canvas",
     width: "full",
+    p: "block",
   })}
 >
-  <div class={cx(container({ maxWidth: "container", p: 0 }), vstack({ gap: "md" }))}>
-    <p class={css({ p: "block" })}>{siteMetadata.title}</p>
+  <div
+    class:list={[
+      container({ maxWidth: "container", p: 0 }),
+      vstack({ gap: "md" }),
+    ]}
+  >
+    <p class={css({ fontWeight: "bold" })}>{siteMetadata.title}</p>
+    <small>© 2024 cieloazul310 All rights reserved.</small>
   </div>
 </footer>

@@ -3,11 +3,12 @@
   "type": "module",
   "version": "0.0.4",
   "scripts": {
-    "prepare": "panda codegen && astro sync",
+    "prepare": "git config --local core.hooksPath .githooks && panda codegen && astro sync",
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "lint-staged": "lint-staged",
     "astro": "astro"
   },
   "dependencies": {
@@ -29,8 +30,15 @@
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-astro": "^1.2.3",
     "eslint-plugin-import": "^2.29.1",
+    "lint-staged": "^15.2.9",
     "prettier": "^3.3.3",
     "prettier-plugin-astro": "^0.14.1",
     "zod-to-json-schema": "^3.23.2"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,astro}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
 }

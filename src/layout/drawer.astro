@@ -2,7 +2,7 @@
 import Link from "@/components/link.astro";
 import ColorModeHandler from "@/components/color-mode-handler.astro";
 import { css } from "styled-system/css";
-import { flex, vstack, hstack } from "styled-system/patterns";
+import { flex, vstack, hstack, button } from "styled-system/patterns";
 
 export interface Props {
   siteTitle?: string;
@@ -88,9 +88,24 @@ const { siteTitle } = Astro.props;
       })}
     >
       <ColorModeHandler />
-      <div class={hstack({ gap: "sm" })}>
-        <Link href="/">Top</Link>
-        <button class="drawer-handler">Close</button>
+      <div class={hstack({ gap: "md" })}>
+        <Link
+          class={button({
+            bg: { base: "amber.900", _dark: "amber.100" },
+            color: { base: "amber.50", _dark: "amber.950" },
+          })}
+          href="/">Top</Link
+        >
+        <button
+          class:list={[
+            button({
+              borderColor: "gray.200",
+              borderWidth: "1px",
+              color: "fg",
+            }),
+            "drawer-handler",
+          ]}>Close</button
+        >
       </div>
     </footer>
   </div>
