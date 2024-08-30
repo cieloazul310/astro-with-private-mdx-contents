@@ -10,39 +10,46 @@ import PostListItem from "@/components/post-list-item.astro";
 export async function getStaticPaths() {
   const allPosts = await getCollection("author");
 
-  return allPosts
-    .map(({ id }, index, arr) => {
-      const left = index !== 0 ? arr[index - 1] : null;
-      const right = index !== arr.length - 1 ? arr[index + 1] : null;
+  return allPosts.map(({ id }, index, arr) => {
+    const left = index !== 0 ? arr[index - 1] : null;
+    const right = index !== arr.length - 1 ? arr[index + 1] : null;
 
-      return {
-        params: {
-          id,
-        },
-        props: {
-          id,
-          left,
-          right,
-        },
-      };
-    });
+    return {
+      params: {
+        id,
+      },
+      props: {
+        id,
+        left,
+        right,
+      },
+    };
+  });
 }
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const { id } = Astro.props;
 const entry = await getEntry("author", id);
-const posts = await getCollection("post", ({ data }) => data.author === entry.data.name);
+const posts = await getCollection(
+  "post",
+  ({ data }) => data.author === entry.data.name,
+);
 const { name, description } = await entry.data;
 ---
 
-<Layout
-  title={name}
->
+<Layout title={name}>
   <BlockHeader title={name}>
     <p slot="bottom">{description}</p>
   </BlockHeader>
   <div class={flex({ direction: "column", gap: "sm" })}>
-    {posts.map((post) => <PostListItem post={post} />)}
+    {
+      posts
+        .sort(
+          (a, b) =>
+            new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
+        )
+        .map((post) => <PostListItem post={post} />)
+    }
   </div>
 </Layout>

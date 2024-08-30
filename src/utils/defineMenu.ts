@@ -8,13 +8,14 @@ export type MenuItem<T extends object = Record<string, unknown>> = {
 } & Partial<T>;
 export type MenuGroup<T extends object = Record<string, unknown>> = {
   title: string;
+  href?: string;
   items: MenuItem<T>[];
 };
 
 export function isMenuItem<T extends object = Record<string, unknown>>(
   item: MenuItem<T> | MenuGroup<T>,
 ): item is MenuItem<T> {
-  return Object.prototype.hasOwnProperty.call(item, "href");
+  return !Object.prototype.hasOwnProperty.call(item, "items");
 }
 
 export function defineMenu<T extends object = Record<string, unknown>>(
