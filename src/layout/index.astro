@@ -1,11 +1,14 @@
 ---
 /* eslint-disable-next-line import/no-unresolved */
 import { ViewTransitions } from "astro:transitions";
+import { css } from "styled-system/css";
 import { container, flex, vstack } from "styled-system/patterns";
 import { siteMetadata } from "@/data";
 import Header from "./header.astro";
 import Footer from "./footer.astro";
 import Menu from "./menu.astro";
+import Drawer from "./drawer.astro";
+import Fab from "./fab.astro";
 import "./index.css";
 
 interface Props {
@@ -17,7 +20,6 @@ const { title } = Astro.props;
 <!doctype html>
 <html lang="ja">
   <head>
-    <slot name="top-of-head" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="favicon.svg" href="favicon.svg" />
@@ -43,12 +45,14 @@ const { title } = Astro.props;
               bg: "bg.canvas",
               rounded: "md",
               flexGrow: 1,
+              overflow: "hidden",
             })}
           >
             <slot />
           </article>
           <div
             class={vstack({
+              display: { base: "flex", mdDown: "none" },
               gap: "md",
               alignItems: "stretch",
               bg: "bg.canvas",
@@ -57,7 +61,7 @@ const { title } = Astro.props;
               p: "md",
               rounded: "md",
               position: "sticky",
-              top: "calc(56px + {spacing.md})"
+              top: "calc(56px + {spacing.md})",
             })}
           >
             <slot name="sidebar-top" />
@@ -66,6 +70,50 @@ const { title } = Astro.props;
         </div>
       </main>
       <Footer />
+      <div
+        class={css({
+          display: { base: "none", mdDown: "block" },
+          position: "fixed",
+          bottom: "md",
+          right: "md",
+          zIndex: 2,
+        })}
+      >
+        <Fab />
+      </div>
+      <Drawer siteTitle={siteMetadata.title}>
+        <Menu />
+      </Drawer>
     </div>
+    <script>
+      import "@/scripts/color-mode.ts";
+    </script>
+    <script is:inline>
+      function setDarkMode() {
+        const theme = (() => {
+          if (
+            typeof localStorage !== "undefined" &&
+            localStorage.getItem("theme")
+          ) {
+            return localStorage.getItem("theme");
+          }
+          if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+            return "dark";
+          }
+          return "light";
+        })();
+
+        if (theme === "light") {
+          document.documentElement.classList.remove("dark");
+        } else {
+          document.documentElement.classList.add("dark");
+        }
+
+        window.localStorage.setItem("theme", theme);
+      }
+
+      setDarkMode();
+      document.addEventListener("astro:after-swap", setDarkMode);
+    </script>
   </body>
 </html>

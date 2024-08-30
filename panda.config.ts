@@ -5,6 +5,12 @@ export default defineConfig({
   include: ["./src/**/*.{ts,js,astro}"],
   exclude: [],
 
+  conditions: {
+    extend: {
+      drawerOpen: "[data-drawer-open=true] &",
+    },
+  },
+
   theme: {
     extend: {
       recipes: {
@@ -15,18 +21,27 @@ export default defineConfig({
         },
       },
       tokens: {
-        colors: {
-          bg: {
-            default: { value: "#fcfcf7" },
-            canvas: { value: "#fffffc" },
-          },
-          fg: { value: "#321" },
-        },
         sizes: {
           header: { value: "56px" },
         },
       },
       semanticTokens: {
+        colors: {
+          bg: {
+            default: { value: { base: "#fcfcf7", _dark: "#171311" } },
+            canvas: { value: { base: "#fffffc", _dark: "#252321" } },
+          },
+          fg: { value: { base: "#321", _dark: "#fcfcf7" } },
+          primary: {
+            alpha: {
+              value: {
+                base: "color-mix(in srgb, {colors.amber.900} 4%, transparent)",
+                _dark:
+                  "color-mix(in srgb, {colors.amber.900} 10%, transparent)",
+              },
+            },
+          },
+        },
         sizes: {
           container: { value: "{sizes.6xl}" },
         },
@@ -83,6 +98,9 @@ export default defineConfig({
     body: {
       bg: "bg.default",
       color: "fg",
+      _drawerOpen: {
+        overflowY: "hidden",
+      },
     },
   },
 

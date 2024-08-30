@@ -2,6 +2,7 @@
 import { css } from "styled-system/css";
 import { flex, container, spacer } from "styled-system/patterns";
 import Link from "@/components/link.astro";
+import ColorModeHandler from "@/components/color-mode-handler.astro";
 import { siteMetadata } from "@/data";
 ---
 
@@ -33,6 +34,7 @@ import { siteMetadata } from "@/data";
         </Link>
       </h1>
       <div class={spacer()}></div>
+      <ColorModeHandler />
     </div>
   </div>
 </header>

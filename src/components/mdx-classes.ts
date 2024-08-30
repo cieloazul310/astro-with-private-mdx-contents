@@ -50,7 +50,7 @@ export const anchor = articleItem({
 });
 
 export const blockquote = articleItem({
-  bg: "amber.900/4",
+  bg: "primary.alpha",
   rounded: "md",
   my: "md",
   px: "md",
@@ -59,7 +59,7 @@ export const blockquote = articleItem({
 
 export const hr = divider({
   orientation: "horizontal",
-  color: { base: "amber.900/4", _dark: "gray.950" },
+  color: { base: "primary.alpha", _dark: "gray.950" },
   my: "lg",
 });
 
@@ -96,7 +96,7 @@ export const pre = articleItem({
 export const code = articleItem({
   ":not(pre) > &": {
     color: { base: "amber.800", _dark: "amber.400" },
-    bg: "amber.900/4",
+    bg: "primary.alpha",
     px: 1,
     rounded: "md",
   },

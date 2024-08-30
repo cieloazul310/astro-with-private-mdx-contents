@@ -1,0 +1,100 @@
+---
+import Link from "@/components/link.astro";
+import ColorModeHandler from "@/components/color-mode-handler.astro";
+import { css } from "styled-system/css";
+import { flex, vstack, hstack } from "styled-system/patterns";
+
+export interface Props {
+  siteTitle?: string;
+}
+
+const { siteTitle } = Astro.props;
+---
+
+<div class="drawer">
+  <div
+    class:list={[
+      css({
+        opacity: 0,
+        display: "none",
+        width: "100%",
+        height: "100%",
+        position: "fixed",
+        top: 0,
+        left: 0,
+        bg: "zinc.950/60",
+        zIndex: "drawerBackdrop",
+        backdropFilter: "blur(2px)",
+        _drawerOpen: {
+          display: "block",
+          opacity: 1,
+        },
+      }),
+      "drawer-handler",
+    ]}
+  >
+  </div>
+  <div
+    class={flex({
+      position: "fixed",
+      bottom: "-75vh",
+      left: 0,
+      zIndex: 10,
+      bg: "bg.canvas",
+      width: "100%",
+      height: "75vh",
+      shadow: "lg",
+      roundedTop: "xl",
+      transition: "bottom .25s",
+      direction: "column",
+      alignItems: "stretch",
+      _drawerOpen: {
+        bottom: 0,
+      },
+    })}
+  >
+    <header
+      class={flex({
+        height: 14,
+        flexShrink: 0,
+        direction: "row",
+        alignItems: "center",
+        px: 4,
+      })}
+    >
+      <Link href="/">
+        <h1 class={css({ fontSize: "lg", textStyle: "headings" })}>
+          {siteTitle ?? "Drawer"}
+        </h1>
+      </Link>
+    </header>
+    <div class={css({ flexGrow: 1, overflowY: "auto", px: 4 })}>
+      <div class={vstack({ gap: "md", alignItems: "stretch" })}>
+        <slot name="drawer-top" />
+        {Astro.slots.has("drawer-top") && <hr />}
+        <slot />
+        {Astro.slots.has("drawer-bottom") && <hr />}
+        <slot name="drawer-bottom" />
+      </div>
+    </div>
+    <footer
+      class={flex({
+        height: 14,
+        flexShrink: 0,
+        direction: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        px: 4,
+      })}
+    >
+      <ColorModeHandler />
+      <div class={hstack({ gap: "sm" })}>
+        <Link href="/">Top</Link>
+        <button class="drawer-handler">Close</button>
+      </div>
+    </footer>
+  </div>
+</div>
+<script>
+  import "@/scripts/drawer.ts";
+</script>
