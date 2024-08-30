@@ -87,6 +87,16 @@ export default defineConfig({
           };
         },
       },
+      button: {
+        transform(props) {
+          return {
+            p: "{spacing.sm}",
+            rounded: "sm",
+            fontWeight: "bold",
+            ...props,
+          };
+        },
+      },
     },
   },
 
