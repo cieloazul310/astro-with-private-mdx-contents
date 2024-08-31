@@ -79,6 +79,7 @@ export const img = cx(
   articleItem({
     my: "xl",
     rounded: "xl",
+    maxWidth: "full",
   }),
   bleed({ inline: "block" }),
 );
@@ -104,7 +105,7 @@ export const code = articleItem({
 
 export const iframe = cx(
   articleItem({
-    maxWidth: "100%",
+    maxWidth: "full",
   }),
   bleed({ inline: "block" }),
 );
