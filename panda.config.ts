@@ -2,7 +2,7 @@ import { defineConfig } from "@pandacss/dev";
 
 export default defineConfig({
   preflight: true,
-  include: ["./src/**/*.{ts,js,astro}"],
+  include: ["./src/**/*.{ts,js,astro,mdx}"],
   exclude: [],
 
   conditions: {
@@ -23,6 +23,13 @@ export default defineConfig({
       tokens: {
         sizes: {
           header: { value: "56px" },
+        },
+        zIndex: {
+          docked: { value: 7 },
+          fab: { value: 100 },
+          drawer: { value: 200 },
+          drawerBackdrop: { value: 199 },
+          header: { value: 10 },
         },
       },
       semanticTokens: {
