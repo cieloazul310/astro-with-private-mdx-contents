@@ -4,7 +4,6 @@ import { getCollection } from "astro:content";
 import { css } from "styled-system/css";
 import { flex, linkOverlay } from "styled-system/patterns";
 import BlockHeader from "@/components/block-header.astro";
-import { heading3 } from "@/components/mdx-classes";
 import Link from "@/components/link.astro";
 import Layout from "@/layout/index.astro";
 
@@ -22,14 +21,19 @@ const allCategory = await getCollection("category");
             py: "md",
             position: "relative",
             bg: { base: "bg.canvas", _hover: "primary.alpha" },
+            borderWidth: "1px",
+            borderColor: { base: "amber.950/20", _dark: "amber.100/20" },
+            rounded: "md",
           })}
         >
-          <h1 class={heading3}>
-            <Link class={linkOverlay()} href={`/category/${id}`}>
-              {data.name}
-            </Link>
-          </h1>
-          <p>{data.description}</p>
+          <hgroup class={flex({ direction: "column", gap: "sm" })}>
+            <h1 class={css({ fontWeight: "bold", fontSize: "xl" })}>
+              <Link class={linkOverlay()} href={`/category/${id}`}>
+                {data.name}
+              </Link>
+            </h1>
+            <p>{data.description}</p>
+          </hgroup>
         </article>
       ))
     }
