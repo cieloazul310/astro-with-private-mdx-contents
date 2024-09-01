@@ -49,9 +49,10 @@ export const collections = {
           image: image()
             .nullish()
             .catch((ctx) => {
+              console.log(ctx.input);
               /* eslint-disable-next-line @typescript-eslint/no-unused-expressions */
               ctx.error;
-              return undefined;
+              return ctx.input;
             }),
         }),
       ),

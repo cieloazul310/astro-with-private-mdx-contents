@@ -1,14 +1,21 @@
 ---
 /* eslint-disable-next-line import/no-unresolved */
 import { getCollection } from "astro:content";
+/* eslint-disable-next-line import/no-unresolved */
+import { Image } from "astro:assets";
 import { css } from "styled-system/css";
-import { flex, linkOverlay } from "styled-system/patterns";
-import { heading3 } from "@/components/mdx-classes";
+import { flex, square, linkOverlay } from "styled-system/patterns";
 import BlockHeader from "@/components/block-header.astro";
 import Link from "@/components/link.astro";
 import Layout from "@/layout/index.astro";
+import { Icon } from "astro-icon/components";
 
 const allAuthor = await getCollection("author");
+const avatarStyle = css({
+  width: "full",
+  height: "full",
+  rounded: "full",
+});
 ---
 
 <Layout title="Author">
@@ -22,15 +29,53 @@ const allAuthor = await getCollection("author");
             py: "md",
             position: "relative",
             bg: { base: "bg.canvas", _hover: "primary.alpha" },
+            borderWidth: "1px",
+            borderColor: { base: "amber.950/20", _dark: "amber.100/20" },
+            rounded: "md",
           })}
         >
-          {data.image && <img src={data.image.src} alt={data.name} />}
-          <h1 class={heading3}>
-            <Link class={linkOverlay()} href={`/author/${id}`}>
-              {data.name}
-            </Link>
-          </h1>
-          <p>{data.description}</p>
+          <div
+            class={flex({
+              gap: { base: "md", md: "lg" },
+              alignItems: "center",
+            })}
+          >
+            <div
+              class={square({ width: "80px", height: "80px", flexShrink: 0 })}
+            >
+              {data.image ? (
+                <Image
+                  class={avatarStyle}
+                  src={data.image}
+                  alt={data.name}
+                  width={160}
+                  height={160}
+                />
+              ) : (
+                <div
+                  class:list={[
+                    avatarStyle,
+                    flex({
+                      bg: { base: "amber.950/12", _dark: "amber.100/40" },
+                      color: { base: "amber.950", _dark: "amber.50/60" },
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }),
+                  ]}
+                >
+                  <Icon name="mdi:person" class={css({ fontSize: "5xl" })} />
+                </div>
+              )}
+            </div>
+            <hgroup class={flex({ direction: "column", gap: "sm" })}>
+              <h1 class={css({ fontWeight: "bold", fontSize: "xl" })}>
+                <Link class={linkOverlay()} href={`/author/${id}`}>
+                  {data.name}
+                </Link>
+              </h1>
+              <p>{data.description}</p>
+            </hgroup>
+          </div>
         </article>
       ))
     }
